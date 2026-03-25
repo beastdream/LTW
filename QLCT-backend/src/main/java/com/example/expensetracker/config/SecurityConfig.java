@@ -19,8 +19,14 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .defaultSuccessUrl("https://tracker-ten-beryl.vercel.app", true) // QUAN TRỌNG: Đăng nhập thành công thì quay về React
-                );
-
+                )
+                // THÊM ĐOẠN NÀY ĐỂ LÀM TÍNH NĂNG ĐĂNG XUẤT
+                .logout(logout -> logout
+                .logoutSuccessUrl("https://tracker-ten-beryl.vercel.app")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")
+                ); // Dấu chấm phẩy chốt sổ nằm ở tận đây!
         return http.build();
     }
 }
