@@ -21,3 +21,9 @@ spring:
             client-id: 18349381843-j11hhhlf6rdi8q65boo81miboden65t1.apps.googleusercontent.com
             client-secret: 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
             scope: profile, email
+  server:
+    servlet:
+      session:
+        cookie:
+          same-site: none
+          secure: true
