@@ -18,7 +18,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated() // Các API khác yêu cầu phải đăng nhập
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("http://localhost:5173", true) // QUAN TRỌNG: Đăng nhập thành công thì quay về React
+                        .defaultSuccessUrl("https://tracker-ten-beryl.vercel.app", true) // QUAN TRỌNG: Đăng nhập thành công thì quay về React
                 );
 
         return http.build();

@@ -13,7 +13,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Cho phép tất cả các API
-                        .allowedOrigins("http://localhost:5173") // Chỉ cho phép Web ở cổng 5173 gọi
+                        .allowedOrigins("https://tracker-ten-beryl.vercel.app") // Chỉ cho phép Web ở cổng 5173 gọi
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowCredentials(true); // Quan trọng để gửi kèm Cookie đăng nhập
             }
