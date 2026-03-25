@@ -22,6 +22,7 @@ spring:
             client-secret: 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
             scope: profile, email
   server:
+    forward-headers-strategy: framework
     servlet:
       session:
         cookie:
