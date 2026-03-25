@@ -48,7 +48,10 @@ function App() {
   const handleLogin = () => {
     window.location.href = `${API_BASE_URL}/oauth2/authorization/google`;
   };
-
+  const handleLogout = () => {
+    // Chuyển hướng người dùng sang Backend để nó xóa Cookie, sau đó Backend sẽ tự động đá người dùng về lại Vercel
+    window.location.href = `${API_BASE_URL}/logout`;
+  };
   const handleSubmit = async (e) => {
     e.preventDefault(); // Chặn việc web bị load lại khi bấm submit form
     try {
@@ -102,6 +105,13 @@ function App() {
           <h2>Xin chào, {user.name}! 👋</h2>
           <p style={{ color: '#7f8c8d', marginTop: '5px' }}>{user.email}</p>
         </div>
+        {/* Nút đăng xuất thêm vào đây */}
+        <button 
+          onClick={handleLogout} 
+          style={{ padding: '8px 16px', backgroundColor: '#e74c3c', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
+        >
+          Đăng xuất
+        </button>
       </header>
 
       <div className="summary-cards">
