@@ -6,7 +6,7 @@ import './App.css'
 axios.defaults.withCredentials = true;
 
 // Địa chỉ backend Spring Boot (Sau này up backend lên server thì đổi URL này)
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = 'https://tracker-rkd1.onrender.com';
 
 function App() {
   const [user, setUser] = useState(null);
