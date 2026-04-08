@@ -9,20 +9,16 @@ import java.time.LocalDate;
 @Data
 @Table(name = "transactions")
 public class Transaction {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String description;
-
-    @Column(precision = 10, scale = 2) // Giới hạn số thập phân cho MySQL
     private BigDecimal amount;
-
     private String category;
-    private String type;        // INCOME hoặc EXPENSE
+    private String type;
     private LocalDate date;
 
-    @Column(name = "user_email", nullable = false)
+    @Column(name = "user_email", nullable = true) // Sửa thành true để SĐT dùng được
     private String userEmail;
 }

@@ -12,39 +12,49 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class TransactionController {
 
     @Autowired
     private TransactionRepository transactionRepository;
 
-    // API lấy thông tin user đăng nhập
     @GetMapping("/user")
     public Map<String, Object> getUserDetails(@AuthenticationPrincipal OAuth2User principal) {
-        if (principal == null) {
-            return Map.of("error", "User not logged in");
-        }
+        if (principal == null) return Map.of("error", "Not logged in");
         return principal.getAttributes();
     }
 
-    // API lấy danh sách giao dịch của user đó
     @GetMapping("/transactions")
-    public List<Transaction> getUserTransactions(@AuthenticationPrincipal OAuth2User principal) {
-        if (principal == null) {
-            throw new RuntimeException("Unauthorized");
+    public List<Transaction> getUserTransactions(@AuthenticationPrincipal OAuth2User principal,
+                                                 @RequestParam(required = false) String identifier) {
+        // 1. Nếu login bằng Gmail
+        if (principal != null) {
+            String email = principal.getAttribute("email");
+            return transactionRepository.findByUserEmail(email);
         }
-        String email = principal.getAttribute("email");
-        return transactionRepository.findByUserEmail(email);
+
+        // 2. Nếu login bằng SĐT: Lọc theo identifier (số điện thoại) gửi từ React
+        if (identifier != null && !identifier.isEmpty()) {
+            return transactionRepository.findByUserEmail(identifier);
+        }
+
+        // Nếu không có thông tin gì thì trả về danh sách trống, không dùng findAll() nữa
+        return List.of();
     }
 
-    // API thêm mới một giao dịch
+    @GetMapping("/admin/transactions")
+    public List<Transaction> getAllTransactions() {
+        return transactionRepository.findAll();
+    }
+
     @PostMapping("/transactions")
     public Transaction createTransaction(@RequestBody Transaction transaction,
                                          @AuthenticationPrincipal OAuth2User principal) {
-        if (principal == null) {
-            throw new RuntimeException("Unauthorized");
+        // Ưu tiên lấy email từ Google nếu có
+        if (principal != null) {
+            transaction.setUserEmail(principal.getAttribute("email"));
         }
-        String email = principal.getAttribute("email");
-        transaction.setUserEmail(email); // Gắn email của user đang đăng nhập vào giao dịch
+        // Nếu dùng SĐT, React sẽ tự động gửi userEmail trong body của transaction
         return transactionRepository.save(transaction);
     }
 }
