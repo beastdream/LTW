@@ -357,7 +357,10 @@ body {
     text-align: center;
   }
 
+
   .login-box, .register-box {
     padding: 25px; /* Giảm padding để rộng chỗ hơn trên điện thoại */
   }
 }
+
+
