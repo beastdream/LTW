@@ -5,6 +5,7 @@
   --danger: #e74c3c;
   --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   --card-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  --transition: all 0.3s ease; /* BỔ SUNG DÒNG NÀY ĐỂ HẾT LỖI */
 }
 
 * {
@@ -362,5 +363,221 @@ body {
     padding: 25px; /* Giảm padding để rộng chỗ hơn trên điện thoại */
   }
 }
+/* --- LAYOUT BIỂU ĐỒ --- */
+.charts-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Cột to cho BarChart, cột nhỏ cho PieChart */
+  gap: 25px;
+  margin-bottom: 35px;
+  animation: fadeInUp 0.8s ease-out;
+}
 
+.chart-card {
+  background: white;
+  padding: 25px;
+  border-radius: 24px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(0,0,0,0.02);
+}
 
+.chart-container {
+  margin-top: 15px;
+}
+
+/* Responsive cho máy tính bảng/điện thoại */
+@media (max-width: 992px) {
+  .charts-layout {
+    grid-template-columns: 1fr;
+  }
+}
+/* --- CSS CHO PHẦN BIẾN ĐỘNG 6 THÁNG --- */
+.recent-stats-container {
+  margin-bottom: 35px;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.recent-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 15px;
+}
+
+.stat-mini-card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(0,0,0,0.02);
+  transition: var(--transition);
+}
+
+.stat-mini-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+}
+
+.stat-month {
+  font-weight: 800;
+  font-size: 14px;
+  color: #2d3436;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 12px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.stat-bar-bg {
+  height: 6px;
+  background: var(--danger); /* Màu đỏ làm nền cho chi tiêu */
+  border-radius: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  background: var(--success); /* Màu xanh đè lên thể hiện tỷ lệ thu nhập */
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Phần info cho Pie Chart */
+.pie-info {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.pie-income-label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: #636e72;
+}
+
+/* =========================================
+   --- BỔ SUNG CHI TIẾT BIẾN ĐỘNG 6 THÁNG ---
+   ========================================= */
+
+/* Ô chứa giá trị và Badge % */
+.stat-value-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+/* Badge % nhỏ gọn giống trong ảnh mẫu */
+.change-badge {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Màu nền nhạt cho Badge (Light background) */
+.bg-green-light {
+  background-color: rgba(46, 204, 113, 0.15);
+  color: #27ae60;
+}
+
+.bg-red-light {
+  background-color: rgba(231, 76, 60, 0.15);
+  color: #c0392b;
+}
+
+/* Kiểu chữ cho phần 0% */
+.change-none {
+  font-size: 11px;
+  color: #b2bec3;
+  font-weight: 500;
+}
+
+/* =========================================
+   --- LÀM ĐẸP LỊCH SỬ GIAO DỊCH (DẠNG CARD) ---
+   ========================================= */
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+/* Card riêng cho từng dòng giao dịch */
+.history-item-card {
+  background: white;
+  padding: 18px 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s ease;
+  border: 1px solid #f1f3f5;
+}
+
+.history-item-card:hover {
+  transform: translateX(8px);
+  border-color: var(--primary);
+  box-shadow: 0 8px 15px rgba(67, 97, 238, 0.08);
+}
+
+/* Icon Category bên trái */
+.item-icon-box {
+  width: 45px;
+  height: 45px;
+  background: #f8faff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--primary);
+}
+
+.item-info {
+  flex: 1;
+}
+
+.item-date {
+  font-size: 12px;
+  color: #b2bec3;
+  margin-bottom: 2px;
+}
+
+.item-description {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2d3436;
+}
+
+.item-amount {
+  font-size: 16px;
+  font-weight: 700;
+  min-width: 100px;
+  text-align: right;
+}
+
+/* =========================================
+   --- HIỆU ỨNG ĐỔ BÓNG CHO BIỂU ĐỒ ---
+   ========================================= */
+
+.chart-card {
+  transition: transform 0.3s ease;
+}
+
+.chart-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Tùy chỉnh Legend của Recharts */
+.recharts-default-legend {
+  margin-top: 15px !important;
+  font-size: 13px;
+}
