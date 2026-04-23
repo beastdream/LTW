@@ -1,0 +1,63 @@
+DROP DATABASE IF EXISTS expense_tracker_db;
+CREATE DATABASE expense_tracker_db;
+USE expense_tracker_db;
+1. Database :
+-- 1. Bảng Users 
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(20) UNIQUE,
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255),
+    role VARCHAR(50) DEFAULT 'USER'
+);
+
+-- 2. Bảng Transactions 
+CREATE TABLE transactions (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    description VARCHAR(255),
+    amount DECIMAL(19, 2), -- Dùng 19,2 để khớp hoàn hảo với BigDecimal trong Java
+    category VARCHAR(100),
+    type VARCHAR(50), 
+    date DATE,
+    user_email VARCHAR(255) NULL 
+);
+
+-- 3. CHÈN DỮ LIỆU TEST
+INSERT INTO users (full_name, phone_number, password, role, email) 
+VALUES 
+('Thái Admin', '0999999999', '123', 'ADMIN', 'admin@gmail.com'),
+('Thái User', '0111111111', '123', 'USER', 'user@gmail.com');
+
+
+2. file application.xml
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/expense_tracker_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: "123456"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 396726777027-lr31e3nvvk32f9h3ncsur3mi2u3i1bmi.apps.googleusercontent.com
+            client-secret: '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'
+            scope:
+              - profile
+              - email
+
+server:
+  port: 8080
+
